@@ -37,11 +37,17 @@
       "node_modules/**/*",
       "package.json"
     ],
- "win": {
-    "target": ["nsis", "zip", "portable"],  
-    "arch": ["x64"],             
-    "icon": "src/assets/icons/pharmacy.ico"  
-  },
+   "win": {
+  "target": [
+    {
+      "target": ["nsis", "zip"],
+      "arch": [
+        "x64"
+      ]
+    }
+  ],
+  "icon": "src/assets/icons/pharmacy.ico"
+},
 
     "mac": {
       "target": "dmg"
