@@ -1,5 +1,8 @@
 {
+  "main": "main/electron.js",
   "name": "pharmacy",
+  "author": "Amir Bahador Amiri",
+  "description": "Software for a pharmacy transactions",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,14 +10,48 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.6.2",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "sqlite3": "^5.1.7",
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
+  },
+  "build": {
+    "appId": "com.pharmacy.app",
+    "productName": "Balooch Pharmacy",
+    "asar": true,
+    "directories": {
+      "buildResources": "src/assets",
+      "output": "dist"
+    },
+    "files": [
+      "build/**/*",
+      "main/**/*",
+      "src/**/*",
+      "public/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+ "win": {
+    "target": ["nsis", "zip", "portable"],  
+    "arch": ["x64"],             
+    "icon": "src/assets/icons/pharmacy.ico"  
+  },
+
+    "mac": {
+      "target": "dmg"
+    }
   },
   "scripts": {
     "start": "react-scripts start",
+    "electron": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "react-scripts build",
+    "dist": "electron-builder --win",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -35,5 +72,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^36.5.0",
+    "electron-builder": "^26.0.12",
+    "wait-on": "^8.0.3"
   }
 }

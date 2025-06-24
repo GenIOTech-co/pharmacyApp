@@ -1,13 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import "./fonts.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ToastProvider } from "./pages/ToastContext";
+import { UserProvider } from "./pages/UserContext";
+import { CashierProvider } from "./pages/CashierContext";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <ToastProvider>
+      <UserProvider>
+        <CashierProvider>
+          <App />
+        </CashierProvider>
+      </UserProvider>
+    </ToastProvider>
   </React.StrictMode>
 );
 
