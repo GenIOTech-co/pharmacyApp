@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Rebuild native modules
+        run: npx electron-rebuild
+
       - name: Build React App
         run: npm run build
 
@@ -27,7 +30,9 @@ jobs:
         run: npx electron-builder --win --x64
 
       - name: Upload Windows Build
-        uses: actions/upload-artifact@v3
-        with:
-          name: windows-build
-          path: dist/*.exe
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: dist/*.exe
+
+     
