@@ -36,7 +36,7 @@ function createWindow() {
   });
 
   //win.loadURL("http://localhost:3000");
-  win.loadFile(path.join(__dirname, "../public/index.html"));
+  win.loadFile(path.join(__dirname, "../build/index.html"));
 
   // win.loadFile(path.join(__dirname, "../build/index.html")); // production
   return win;
