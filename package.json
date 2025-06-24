@@ -22,6 +22,7 @@
     "xlsx": "^0.18.5"
   },
   "build": {
+    "extends": null,
     "appId": "com.pharmacy.app",
     "productName": "Balooch Pharmacy",
     "asar": true,
