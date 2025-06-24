@@ -4,7 +4,7 @@ import SaveExcel from "../components/SaveExcel";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaCheck, FaPrint } from "react-icons/fa";
 import { useUser } from "./UserContext";
-import { useToast } from "./ToastContext";
+
 //const { ipcRenderer } = window.require("electron");
 
 export default function Setting() {
@@ -14,8 +14,8 @@ export default function Setting() {
   const cashierState = location.state?.cashstate;
   const { username } = useUser();
   const [transactions, setTransactions] = useState([]);
-  const { showToast } = useToast();
-  const [selectedDetails, setSelectedDetails] = useState(null); // متن کامل انتخاب شده
+
+  //const [selectedDetails, setSelectedDetails] = useState(null); // متن کامل انتخاب شده
   const [showForm, setShowForm] = useState(false);
   const [transactionId, setTransactionId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +24,6 @@ export default function Setting() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const [searchTerm, setSearchTerm] = useState("");
-  const [confirmDisabled, setConfirmDisabled] = useState(true);
   const [cashData, setCashData] = useState([]);
   const [bankData, setBankData] = useState([]);
   const [currentDataType, setCurrentDataType] = useState("cash");
@@ -63,27 +62,6 @@ export default function Setting() {
     indexOfLastItem
   );
 
-  // const totalPages = Math.ceil(transactions.length / itemsPerPage);
-  const defaultFormData = {
-    sandoghNo: sandoghNumber,
-    customerName: "مشتری",
-    operationType: "پرداخت",
-    mablaghGhablDaryafti: 0,
-    pardakhtiBimar: 0,
-    mablaghDaryaftiNaghdi: 0,
-    ghablBargasht: 0,
-    mablaghDaryaftPos: 0,
-    chequeAmount: 0,
-    chequeDate: "",
-    bimeKargozar: "...",
-    tozihat: "بدون توضیح",
-    status: "pending",
-    insurance: "آزاد",
-    receptionist: { username },
-  };
-  const [formData, setFormData] = useState(defaultFormData);
-
-  console.log("default1:", defaultFormData);
   useEffect(() => {
     const fetchTransactions = async () => {
       const { cashData, bankData } = await window.electronAPI.getCash();
@@ -103,12 +81,6 @@ export default function Setting() {
     fetchTransactions();
   }, []);
 
-  // تابع برای گرفتن اولین کلمه
-  const getFirstWord = (text) => {
-    if (!text) return "";
-    return text.trim().split(/\s+/)[0];
-  };
-
   const handlePrint = () => {
     const tableElement = document.getElementById("sandoghTable");
     if (tableElement) {
@@ -117,8 +89,6 @@ export default function Setting() {
       alert("Table not found!");
     }
   };
-  // بستن popup
-  const closePopup = () => setSelectedDetails(null);
 
   const buttonStyle = {
     flex: 1,
@@ -131,13 +101,6 @@ export default function Setting() {
     transition: "background-color 0.3s ease",
     color: "white",
     backgroundColor: "#dc3545",
-  };
-
-  const headerStyle = {
-    fontSize: "1.5rem",
-    marginBottom: "2rem",
-    textAlign: "center",
-    fontFamily: "IRANSans-Bold",
   };
 
   const tableStyle = {
@@ -167,32 +130,6 @@ export default function Setting() {
     // textDecoration: "underline",
   };
 
-  // استایل popup ساده
-  const popupStyle = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1000,
-  };
-
-  const popupContentStyle = {
-    backgroundColor: "#fff",
-    padding: "20px",
-    borderRadius: "8px",
-    maxWidth: "60%",
-    minWidth: "30%",
-    maxHeight: "60%",
-    overflowY: "auto",
-    fontFamily: "IRANSans-Bold",
-    fontSize: "16px",
-    direction: "rtl",
-  };
   const tablediv = {
     //border: " 1px solid red",
     //maxWidth: "90%",
@@ -399,9 +336,9 @@ export default function Setting() {
                           ...buttonStyle,
 
                           backgroundColor:
-                            tx.status == "done" ||
-                            tx.status == "pending" ||
-                            tx.status == "empty" ||
+                            tx.status === "done" ||
+                            tx.status === "pending" ||
+                            tx.status === "empty" ||
                             tx.receptionist !== username
                               ? "#ccc"
                               : "#28a745",
@@ -411,17 +348,17 @@ export default function Setting() {
                           marginRight: 10,
                           borderRadius: 5,
                           cursor:
-                            tx.status == "done" ||
-                            tx.status == "pending" ||
-                            tx.status == "empty" ||
+                            tx.status === "done" ||
+                            tx.status === "pending" ||
+                            tx.status === "empty" ||
                             tx.receptionist !== username
                               ? "not-allowed"
                               : "pointer",
                         }}
                         disabled={
-                          tx.status == "done" ||
-                          tx.status == "pending" ||
-                          tx.status == "empty" ||
+                          tx.status === "done" ||
+                          tx.status === "pending" ||
+                          tx.status === "empty" ||
                           tx.receptionist !== username
                             ? true
                             : false

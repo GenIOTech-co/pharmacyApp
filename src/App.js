@@ -17,7 +17,6 @@ import { useCashier } from "./pages/CashierContext";
 
 function App() {
   const [licensed, setLicensed] = useState(null);
-  const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
   const { showToast } = useToast();
   const { cashier } = useCashier();
   //const isElectron = window?.electronAPI !== undefined;
@@ -55,7 +54,7 @@ function App() {
     };
 
     checkLicenseState();
-  }, []);
+  }, [showToast]);
   useEffect(() => {
     // Whenever cashier changes, notify main process
     window.electronAPI.setCashierState(cashier);
@@ -65,7 +64,7 @@ function App() {
       console.log("here we are!");
       showToast("ابتدا باید صندوق را ببندید");
     });
-  }, []);
+  }, [showToast]);
 
   if (licensed === null) return <p>در حال بارگذاری...</p>;
 
@@ -92,7 +91,7 @@ function App() {
           <Route path="/operators" element={<Operators />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/amal" element={<Amaliat />} />
-       
+
           <Route path="/HameNoskheha" element={<HameNoskheha />} />
           <Route path="/setting" element={<Setting />} />
         </Routes>

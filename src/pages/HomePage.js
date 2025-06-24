@@ -6,12 +6,9 @@ import { useToast } from "./ToastContext";
 import { useCashier } from "./CashierContext";
 import {
   FaCashRegister,
-  FaMoneyBill,
   FaListAlt,
   FaCog,
-  FaReceipt,
   FaMoneyCheckAlt,
-  FaHourglassHalf,
 } from "react-icons/fa";
 
 function HomePage() {
@@ -32,7 +29,7 @@ function HomePage() {
       console.log("sandoghNo: ", location.state.sandoghNom);
       setSandoghNom(location.state.sandoghNom); // Your state setter
     }
-  }, [location.state]);
+  }, [location.state , setCashier, setSandoghNom]);
 
   const containerStyle = {
     padding: "2rem",
@@ -276,8 +273,10 @@ function HomePage() {
                     const result = await window.electronAPI.sandoghState(
                       sandoghData
                     );
-                    setCashier(true);
-                    showToast(`صندوق توسط '${username}' باز شد`);
+                    if (result.success) {
+                      setCashier(true);
+                      showToast(`صندوق توسط '${username}' باز شد`);
+                    }
                   } else {
                     const sandoghData = {
                       sandoghNo: parseInt(sandoghNom),
@@ -288,16 +287,16 @@ function HomePage() {
                     const result = await window.electronAPI.closeSandogh(
                       sandoghData
                     );
-                    setCashier(false);
-                    showToast(`صندوق توسط '${username}' بسته شد`);
+                    if (result.success) {
+                      setCashier(false);
+                      showToast(`صندوق توسط '${username}' بسته شد`);
+                    }
                   }
                   setShowConfirmModal(false);
                 }}
                 style={{
                   margin: "0 1rem",
-                  padding: "0.5rem 1rem",
-                  margin: "0 1rem",
-                  padding: "0.5rem 1rem",
+                  // padding: "0.5rem 1rem",
                   padding: "6px 12px",
                   backgroundColor: "#6c757d",
                   border: "none",

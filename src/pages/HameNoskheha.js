@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import BackButton from "../components/BackButton";
 import SaveExcel from "../components/SaveExcel";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { FaEdit, FaPrint } from "react-icons/fa";
 import { useUser } from "./UserContext";
 import { useToast } from "./ToastContext";
 //const { ipcRenderer } = window.require("electron");
 
 export default function HameNoskheha() {
-  const navigate = useNavigate();
+
   const location = useLocation();
   const sandoghNumber = location.state?.sandoghNom;
   const { username } = useUser();
@@ -23,7 +23,7 @@ export default function HameNoskheha() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const [searchTerm, setSearchTerm] = useState("");
-  const [confirmDisabled, setConfirmDisabled] = useState(true);
+
   // const filteredTransactions = transactions.filter((tx) => {
   //   const term = searchTerm.toLowerCase();
   //   const kindMap = {
@@ -116,7 +116,7 @@ export default function HameNoskheha() {
     };
 
     fetchTransactions();
-  }, []);
+  }, [showToast]);
 
   // تابع برای گرفتن اولین کلمه
   const getFirstWord = (text) => {
@@ -431,15 +431,7 @@ export default function HameNoskheha() {
       cursor: "pointer",
       fontFamily: "IRANSans-Bold",
     },
-    confirmDisabled: {
-      flex: 1,
-      padding: "10px 0",
-      background: "#ccc",
-      color: "#fff",
-      border: "none",
-      borderRadius: 8,
-      fontFamily: "IRANSans-Bold",
-    },
+   
   };
   return (
     <div>
@@ -602,7 +594,7 @@ export default function HameNoskheha() {
                         style={{
                           ...buttonStyle,
                           backgroundColor:
-                            tx.status == "done" || tx.receptionist !== username
+                            tx.status === "done" || tx.receptionist !== username
                               ? "#ccc"
                               : "#28a745",
 
@@ -611,12 +603,12 @@ export default function HameNoskheha() {
                           marginRight: 10,
                           borderRadius: 5,
                           cursor:
-                            tx.status == "done" || tx.receptionist !== username
+                            tx.status === "done" || tx.receptionist !== username
                               ? "not-allowed"
                               : "pointer",
                         }}
                         disabled={
-                          tx.status == "done" || tx.receptionist !== username
+                          tx.status === "done" || tx.receptionist !== username
                             ? true
                             : false
                         }
